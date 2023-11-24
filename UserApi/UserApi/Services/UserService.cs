@@ -1,19 +1,32 @@
-﻿using UserApi.Dal;
+﻿using MqLibrary.Models;
+using MqLibrary.Services;
+using UserApi.Dal;
 using UserApi.Models;
 using UserApi.Models.Helpers;
 
 namespace UserApi.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        private string _tableName = "pixelwar";
+        private string _tableName = "users";
         private SqLiteDataAccessLayer _dal;
+        private IProducerService _producerService;
+
+        public UserService(IProducerService service)
+        {
+            _producerService = service;
+        }
 
         public int Insert(User el)
         {
             var newEntity = el.ToEntity();
             newEntity.UrlApproveProfile = Guid.NewGuid().ToString();
             var statusCode = _dal.Insert(newEntity);
+            _producerService.SendMessage(new MqUserObject
+            {
+                Email = newEntity.Email,
+                UrlApproveProfile = newEntity.UrlApproveProfile,
+            });
             return statusCode;
         }
 
