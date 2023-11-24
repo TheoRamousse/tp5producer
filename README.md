@@ -33,6 +33,16 @@ docker-compose up
 Le swagger se trouve à l'adresse http://localhost:8085/swagger/index.html
 RabbitMq se trouve à l'adresse http://localhost:15672 et vous pouvez vous identifier avec l'id/password guest/guest.
 
+## Ajout de users
+
+Pour ajouter un nouvel utilisateur, utilisez simplement la requête POST du Swagger et respectez la formalisation suivante :
+```json
+{
+    "firstName": "John",
+    "lasrName": "Cena",
+    "email": "john.cena@outlook.com"
+}
+```
 
 ## Auteur
 
