@@ -39,7 +39,7 @@ Pour ajouter un nouvel utilisateur, utilisez simplement la requête POST du Swag
 ```json
 {
     "firstName": "John",
-    "lasrName": "Cena",
+    "lastName": "Cena",
     "email": "john.cena@outlook.com"
 }
 ```
