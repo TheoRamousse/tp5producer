@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MqLibrary.Models;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -14,13 +15,16 @@ namespace MqLibrary.Services
     {
         private IModel _channel;
         private IConfiguration _configuration;
-        public ProducerService(IConfiguration configuration)
+        private ILogger<ProducerService> _log;
+        public ProducerService(IConfiguration configuration, ILogger<ProducerService> log)
         {
+            _log = log;
             _configuration = configuration;
+            _log.LogInformation("RabbitMq address : " + _configuration["RabbitMqUrl"]);
             var factory = new ConnectionFactory
             {
-                UserName = "guest",
-                Password = "guest",
+                UserName = _configuration["RabbitMqUser"],
+                Password = _configuration["RabbitMqPassword"],
                 HostName = _configuration["RabbitMqUrl"]
             };
 
