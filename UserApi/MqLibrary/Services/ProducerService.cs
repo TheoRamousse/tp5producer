@@ -13,10 +13,14 @@ namespace MqLibrary.Services
     public class ProducerService : IProducerService
     {
         private IModel _channel;
-        public ProducerService(IConfiguration _configuration)
+        private IConfiguration _configuration;
+        public ProducerService(IConfiguration configuration)
         {
+            _configuration = configuration;
             var factory = new ConnectionFactory
             {
+                UserName = "guest",
+                Password = "guest",
                 HostName = _configuration["RabbitMqUrl"]
             };
 
@@ -36,7 +40,7 @@ namespace MqLibrary.Services
             var json = JsonConvert.SerializeObject(user);
             var body = Encoding.UTF8.GetBytes(json);
 
-            _channel.BasicPublish(exchange: "", routingKey: "orders", body: body);
+            _channel.BasicPublish(exchange: "", routingKey: _configuration["RabbitMqQueue"], body: body);
         }
     }
 }

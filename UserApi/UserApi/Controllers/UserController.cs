@@ -35,11 +35,11 @@ namespace UserApi.Controllers
         }
 
         [HttpGet("validate", Name = "Validate")]
-        public IActionResult Validate([FromUri] string email, [FromUri] string urlValidation)
+        public async Task<IActionResult> Validate([FromUri] string email, [FromUri] string urlValidation)
         {
-            var res = _service.ValidateAccount(email, urlValidation);
+            var res = await _service.ValidateAccount(email, urlValidation);
 
-            if (res == 1)
+            if (res != null)
                 return Ok();
 
             return BadRequest();

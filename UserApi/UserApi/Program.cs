@@ -1,12 +1,17 @@
+using MqLibrary.Context;
 using MqLibrary.Services;
+using System.Reflection;
+using UserApi.Dal;
 using UserApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<UserContext>();
 
-builder.Services.AddSingleton<IProducerService, ProducerService>();
-builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddScoped<SqLiteDataAccessLayer>();
+builder.Services.AddScoped<IProducerService, ProducerService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
